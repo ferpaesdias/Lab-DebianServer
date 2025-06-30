@@ -2,7 +2,7 @@
 # vi: set ft=ruby :
 
 vms = {
-  'Server01' => { 'memory' => '2048', 'cpus' => '2', 'ip' => '201', 'box' => 'debian/bookworm64', 'provision' => 'script_server01.sh' } #,
+  'Server01' => { 'memory' => '1024', 'cpus' => '1', 'ip' => '201', 'box' => 'debian/bookworm64', 'provision' => 'script_server01.sh' } #,
   #'Client01' => { 'memory' => '1024', 'cpus' => '1', 'ip' => '202', 'box' => 'debian/bookworm64', 'provision' => 'escript_client01.sh' }
 }
 
