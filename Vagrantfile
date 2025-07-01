@@ -2,8 +2,8 @@
 # vi: set ft=ruby :
 
 vms = {
-  'Server01' => { 'memory' => '1024', 'cpus' => '1', 'ip' => '201', 'box' => 'debian/bookworm64', 'provision' => 'server.sh' } #,
-  #'Client01' => { 'memory' => '1024', 'cpus' => '1', 'ip' => '202', 'box' => 'debian/bookworm64', 'provision' => 'client01.sh' }
+  'Server01' => { 'memory' => '1024', 'cpus' => '1', 'ip' => '201', 'box' => 'debian/bookworm64', 'provision' => 'server.sh' },
+  'Client01' => { 'memory' => '1024', 'cpus' => '1', 'ip' => '202', 'box' => 'debian/bookworm64', 'provision' => 'client01.sh' }
 }
 
 Vagrant.configure('2') do |config|
@@ -11,9 +11,18 @@ Vagrant.configure('2') do |config|
       config.vm.define "#{name}" do |my|
         my.vm.box = conf['box']
         my.vm.hostname = "#{name}.myhome.local"
-        my.vm.network 'private_network', ip: "192.168.56.#{conf['ip']}"
+
+        if "#{name}" == "Server01"
+          my.vm.network 'private_network', ip: "192.168.56.#{conf['ip']}", virtualbox__intnet: "netserver"
+        end
+
+        if "#{name}" != "Server01"
+          my.vm.network 'private_network', type: "dhcp", virtualbox__intnet: "netserver"
+        end
+
         my.vm.provision 'shell', path: "Provision/#{conf['provision']}"
         my.vm.provider 'virtualbox' do |vb|
+          vb.name = "#{name}"
           vb.memory = conf['memory']
           vb.cpus = conf['cpus']
           vb.customize ["modifyvm", :id, "--vram", "12"]
