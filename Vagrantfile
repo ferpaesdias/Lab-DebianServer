@@ -3,7 +3,7 @@
 
 vms = {
   'Server01' => { 'memory' => '1024', 'cpus' => '1', 'ip' => '201', 'box' => 'debian/bookworm64', 'provision' => 'server.sh' } #,
-  #'Client01' => { 'memory' => '1024', 'cpus' => '1', 'ip' => '202', 'box' => 'debian/bookworm64', 'provision' => 'escript_client01.sh' }
+  #'Client01' => { 'memory' => '1024', 'cpus' => '1', 'ip' => '202', 'box' => 'debian/bookworm64', 'provision' => 'client01.sh' }
 }
 
 Vagrant.configure('2') do |config|
