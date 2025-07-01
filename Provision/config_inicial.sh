@@ -26,6 +26,9 @@ EOF
 # Instalar aplicativos básicos
 function apps_basicos {
 
-    sudo apt-get update > /dev/null 2>&1 
+    echo -e "Atualizando repositórios"
+    sudo apt-get update #> /dev/null 2>&1 
+
+    echo -e "Instalando aplicativos básicos"
     sudo apt-get install -qq vim curl wget apt-transport-https ca-certificates jq git
 }

@@ -18,6 +18,9 @@ Vagrant.configure('2') do |config|
 
         if "#{name}" != "Server01"
           my.vm.network 'private_network', type: "dhcp", virtualbox__intnet: "netserver"
+          # my.vm.provision "shell",
+          #   run: "always",
+          #   inline: "ifconfig wlo1 172.20.0.1 netmask 255.255.255.0 up"
         end
 
         my.vm.provision 'shell', path: "Provision/#{conf['provision']}"

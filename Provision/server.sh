@@ -12,7 +12,6 @@ echo -e "Ajustando fuso horário"
 hosts_resolv 
 
 # Instalar aplicativos básicos
-echo -e "Instalando aplicativos básicos"
 apps_basicos
 
 # Instalar o DHCP Server
