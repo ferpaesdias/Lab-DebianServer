@@ -17,7 +17,7 @@ cat <<-EOF | sudo tee -a /etc/hosts
 EOF
 
 # Adiciona o DNS do Google no arquivo resolv.conf
-cat <<-EOF | sudo tee -a /etc/resolv.conf
+cat <<-EOF | sudo tee /etc/resolv.conf
 nameserver 8.8.8.8
 nameserver 8.8.4.4
 EOF
@@ -26,6 +26,6 @@ EOF
 # Instalar aplicativos básicos
 function apps_basicos {
 
-    sudo apt update > /dev/null 2>&1 
-    sudo apt install -y vim curl wget apt-transport-https ca-certificates jq
+    sudo apt-get update > /dev/null 2>&1 
+    sudo apt-get install -qq vim curl wget apt-transport-https ca-certificates jq git
 }
