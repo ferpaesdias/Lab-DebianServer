@@ -1,24 +1,9 @@
-# Lab-Vagrant-DebianServer
+# Lab-DebianServer
 
-Usar o Vagrant para criar um ambiente com um Debian Server e um Debian  client.
-
-<br>
-
-O  Debian Server terá os seguintes serviços:
+Criar um ambiente com 01 Firewall de borda com o **nftables** e 01 servidor que terá as seguintes funções:
 
 - [ ] DHCP Server
 - [ ] DNS Server
 - [ ] Samba
 
-<br>
-      
-**Obs**.: Este texto está em constante atualização.
-
-<br>
-     
-## DISCLAIMER
-
-O VirtualBox, na configuração de rede interna de suas VMs, utiliza a faixa de endereço IP: 192.168.56.0/21.  
-Para maiores informações consulte o link: [network hostonly](https://www.virtualbox.org/manual/ch06.html#network_hostonly).
-
-
+Com o passar do tempo adicionarei mais funções ao servidor.
