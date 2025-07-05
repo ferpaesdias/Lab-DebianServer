@@ -55,7 +55,7 @@ function check_forward () {
     sudo sysctl -p > /dev/null 2>&1
 }
 
-
+# Função que configura o nftables
 function nft_config () {
 
     echo "=== Iniciando configuração do firewall NFTables ==="
