@@ -16,7 +16,7 @@ function nft_install () {
 
     echo -e "Instalando o 'nftables'"
     sudo apt install nftables -y > /dev/null 2>&1
-    sudo systemctl stop nftables > /dev/null 2>&1
+    sudo systemctl enable nftables --now > /dev/null 2>&1
 
     sudo systemctl is-active --quiet nftables.service > /dev/null 2>&1
     if [[ $? -ne 0 ]]
