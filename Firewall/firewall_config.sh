@@ -10,6 +10,7 @@ LAN_IF="enp0s8"      # Interface conectada à rede local
 LAN_NET="172.16.0.0/24"  # Endereçamento da sua rede local
 IP_SERVER01="172.16.0.200" # Endereço do servidor Server01
 
+
 # Função de instalação do nftables
 function nft_install () {
 
@@ -100,7 +101,7 @@ function nft_config () {
     sudo nft add rule inet filter FORWARD ct state invalid drop
     
     # (Opcional) Regra de filtro para o redirecionamento de porta HTTP
-    # nft add rule inet filter FORWARD iifname $WAN_IF oifname $LAN_IF tcp dport 80 accept
+    nft add rule inet filter FORWARD iifname $WAN_IF oifname $LAN_IF tcp dport 22 accept
     echo "[OK] Regras da cadeia FORWARD aplicadas."
 
     # --- Regras da tabela 'nat' ---
@@ -109,7 +110,10 @@ function nft_config () {
     sudo nft add rule ip nat POSTROUTING oifname $WAN_IF masquerade
 
     # (Opcional) Regra de Redirecionamento de Porta (DNAT)
-    # nft add rule ip nat PREROUTING iifname $WAN_IF tcp dport 80 dnat to $WEB_SERVER_IP
+    # sudo nft add rule ip nat PREROUTING iifname $WAN_IF tcp dport 80 dnat to $IP_SERVER01
+
+    # (Opcional) Regra de Redirecionamento da Porta 2223 (DNAT) para a porta 22
+    # sudo nft add rule ip nat PREROUTING iifname $WAN_IF tcp dport 2223 dnat to $IP_SERVER01:22
     echo "[OK] Regras de NAT aplicadas."
 
     # Tornar as configurações permanentes
