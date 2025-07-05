@@ -6,7 +6,7 @@
 
 # --- Definições ---
 DHCP_IF="enp0s3"      # Interface utilizada no DHCP Server
-DOMAIN="lab.local"
+DOMAIN="mylab.lan"
 NAME_SERVERS="8.8.8.8, 8.8.4.4"
 IP_RANGE="172.16.0.11 172.16.0.199"
 IP_ROUTER="172.16.0.1"
