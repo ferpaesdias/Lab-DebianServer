@@ -18,14 +18,19 @@ function bind9_install () {
     echo -e "Instalando o 'bind9'"
     sudo apt install bind9 bind9utils bind9-doc -y > /dev/null 2>&1
     sudo systemctl enable bind9 --now > /dev/null 2>&1
-
-    # sudo systemctl is-active --quiet bind9.service > /dev/null 2>&1
-    # if [[ $? -ne 0 ]]
-    # then
-    #     echo -e "Não foi possível iniciar o serviço do bind9.\nVerifique o seu computador"
-    #     exit 1
-    # fi
 }
+
+# Função que reinicia e habilita o DNS Server
+function bind9_restart () {
+
+	    sudo systemctl is-active --quiet bind9.service > /dev/null 2>&1
+    if [[ $? -ne 0 ]]
+    then
+        echo -e "Não foi possível iniciar o serviço do bind9.\nVerifique o seu computador"
+        exit 1
+    fi
+}
+
 
 # Função que verifica se o nft está instalado e o instala se necessário
 function bind9_check () {
@@ -115,6 +120,13 @@ EOF
 }
 
 
+#### Execução dos comandos
+
+# Verifica e instala o bind9
 bind9_check
 
+# Configura o bind9
 bind9_config
+
+# Reincia e habilita o bind9
+bind9_restart
