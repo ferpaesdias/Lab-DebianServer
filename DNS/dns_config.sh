@@ -51,7 +51,7 @@ function bind9_config () {
 	    directory "/var/cache/bind";
 
 	    recursion yes; 
-	    allow-query { 172.16.0.0/24; };
+	    allow-query { 172.16.0.0/24; 127.0.0.1; };
 
 	    // Encaminhadores
 	    forwarders {
