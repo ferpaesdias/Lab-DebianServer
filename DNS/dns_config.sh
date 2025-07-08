@@ -49,14 +49,23 @@ function bind9_check () {
 # Função que configura o DNS Server
 function bind9_config () {
 
-	sudo echo 'OPTIONS="-u bind -4"' > /etc/default/bind9
+	sudo echo 'OPTIONS="-4 -u bind"' > /etc/default/bind9
+	sudo echo 'OPTIONS="-4 -u bind"' > /etc/default/named
 
 	cat <<-EOF > /etc/bind/named.conf.options
+	acl "trusted" {
+	    localhost;
+	    localnets;
+	    172.16.0.0/24;
+	};
+
 	options {
 	    directory "/var/cache/bind";
 
 	    recursion yes; 
-	    allow-query { 172.16.0.0/24; 127.0.0.1; };
+	    allow-query { trusted; };
+
+	    listen-on { 127.0.0.1; 172.16.0.200; };
 
 	    // Encaminhadores
 	    forwarders {
@@ -64,10 +73,9 @@ function bind9_config () {
 	        8.8.4.4;
 	    }; 
 
-	    dnssec-validation auto;
-	    auth-nxdomain no;
-	    listen-on { 127.0.0.1; 172.16.0.200; };
-	    listen-on-v6 { none; };
+	    dnssec-validation no;
+	    forward only;
+	    // listen-on-v6 { any; };
 	};
 EOF
 
@@ -75,11 +83,13 @@ EOF
 	zone "mylab.lan" {
 	    type master;
 	    file "/etc/bind/db.mylab.lan"; 
+	    allow-update { none; };
 	};
 
 	zone "0.16.172.in-addr.arpa" {
 	    type master;
-	    file "/etc/bind/db.172";
+	    file "/etc/bind/db.172.16.0";
+	    allow-update { none; };
 	};
 EOF
 
@@ -89,31 +99,34 @@ EOF
 	;
 	\$TTL	604800
 	@	IN	SOA	server01.mylab.lan. root.mylab.lan. (
-                      2		; Serial
+             2025070801		; Serial
                  604800		; Refresh
                   86400		; Retry
                 2419200		; Expire
                  604800 )	; Negative Cache TTL
 	;
 	@	IN	NS	server01.mylab.lan.
+
+	@	IN	A	172.16.0.200
 	server01	IN	A	172.16.0.200
 	firewall	IN	A	172.16.0.1
 EOF
 
 
-	cat <<-EOF > /etc/bind/db.172 
+	cat <<-EOF > /etc/bind/db.172.16.0
 	;
 	; BIND reverse data file for local loopback interface
 	;
 	\$TTL	604800
 	@	IN	SOA	server01.mylab.lan. root.mylab.lan. (
-	                  1		; Serial
+	         2025070801		; Serial
 	             604800		; Refresh
 	              86400		; Retry
 	            2419200		; Expire
 	             604800 )	; Negative Cache TTL
 	
 	@	IN	NS	server01.mylab.lan.
+
 	200	IN	PTR	server01.mylab.lan.
 	1	IN	PTR	firewall.mylab.lan.
 EOF
